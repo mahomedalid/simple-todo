@@ -55,11 +55,20 @@ resource "azurerm_traffic_manager_profile" "tm-todo-demo" {
   }
 }
 
-resource "azurerm_traffic_manager_endpoint" "tm-todo-demo-endpoint" {
+resource "azurerm_traffic_manager_endpoint" "tmep-todo-demo-external-node1" {
   name                = "tm-todo-demo"
   resource_group_name = azurerm_resource_group.rg.name
   profile_name        = azurerm_traffic_manager_profile.tm-todo-demo.name
   target              = "terraform.io"
   type                = "externalEndpoints"
   weight              = 100
+}
+
+resource "azurerm_traffic_manager_endpoint" "tmep-todo-demo-azure-node1" {
+  name                = "tm-todo-demo"
+  resource_group_name = azurerm_resource_group.rg.name
+  profile_name        = azurerm_traffic_manager_profile.tm-todo-demo.name
+  type                = "azureEndpoints"
+  weight              = 100
+  target_resource_id  = azurerm_app_service.appsrv-todo-demo.id
 }
