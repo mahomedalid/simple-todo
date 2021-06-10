@@ -33,6 +33,7 @@ func main() {
 	r.Put("/todos/:id", http.HandlerFunc(updateByID))
 	r.Get("/todos", http.HandlerFunc(getAll))
 	r.Post("/todos", http.HandlerFunc(insert))
+	r.Get("/", http.HandlerFunc(healthCheck))
 
 	http.Handle("/", r)
 
@@ -41,6 +42,10 @@ func main() {
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+}
+
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "OK")
 }
 
 func getAll(w http.ResponseWriter, r *http.Request) {
